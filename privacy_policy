@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy - AppName</title>
+
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    line-height:1.7;
+    max-width:900px;
+    margin:40px auto;
+    padding:0 20px;
+    color:#333;
+}
+h1,h2{
+    color:#222;
+}
+hr{
+    margin:30px 0;
+}
+ul{
+    margin-left:20px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+
+<p><strong>Last updated:</strong> July 2026</p>
+
+<p>
+Welcome to <strong>AppName</strong>.
+</p>
+
+<p>
+This Privacy Policy explains how <strong>CompanyName</strong> ("we",
+"us", or "our") collects, uses, stores, and protects your information
+when you use the <strong>AppName</strong> mobile application ("the
+App").
+</p>
+
+<p>
+By using the App, you agree to the collection and use of your
+information as described in this Privacy Policy.
+</p>
+
+<hr>
+
+<h2>1. Information We Collect</h2>
+
+<p>
+To provide our services, we collect and store the information necessary
+to operate the App.
+</p>
+
+<h3>Account Information</h3>
+
+<p>
+When you create an account, we collect:
+</p>
+
+<ul>
+<li>Full name</li>
+<li>Email address</li>
+<li>Password (managed securely by Supabase Authentication and never accessible to us)</li>
+</ul>
+
+<h3>Booking Information</h3>
+
+<p>
+When you purchase or schedule lessons, we store information including:
+</p>
+
+<ul>
+<li>Purchased lesson packages</li>
+<li>Remaining lessons</li>
+<li>Scheduled lesson dates and times</li>
+<li>Booking status</li>
+<li>Appointment details</li>
+<li>Service information</li>
+</ul>
+
+<p>
+This information is required to manage your bookings and provide the
+services offered by the App.
+</p>
+
+<hr>
+
+<h2>2. How We Use Your Information</h2>
+
+<p>
+We use your information to:
+</p>
+
+<ul>
+<li>Create and manage your account.</li>
+<li>Authenticate your identity.</li>
+<li>Allow you to purchase lesson packages.</li>
+<li>Schedule, reschedule, and cancel lessons.</li>
+<li>Track remaining lessons within purchased packages.</li>
+<li>Send account verification, booking confirmations, reminders, and other service-related notifications.</li>
+<li>Maintain the reliability, security, and functionality of the App.</li>
+</ul>
+
+<p>
+We do <strong>not</strong> sell your personal information to third
+parties.
+</p>
+
+<hr>
+
+<h2>3. Third-Party Service Providers</h2>
+
+<p>
+We use trusted third-party providers to operate the App.
+</p>
+
+<h3>Supabase</h3>
+
+<p>
+Supabase provides:
+</p>
+
+<ul>
+<li>User authentication</li>
+<li>Secure cloud database storage</li>
+<li>Backend infrastructure</li>
+</ul>
+
+<p>
+Your account information and booking data are securely stored and
+processed using Supabase.
+</p>
+
+<p>
+Supabase uses encrypted communication (TLS/SSL) and industry-standard
+security practices to help protect your information.
+</p>
+
+<h3>Bookitit</h3>
+
+<p>
+Bookitit is used exclusively to manage lesson scheduling and calendar
+availability.
+</p>
+
+<p>
+The Bookitit interface is not visible to users. All booking operations
+are performed through the App.
+</p>
+
+<p>
+Only the information necessary to create and manage appointments is
+shared with Bookitit, including:
+</p>
+
+<ul>
+<li>Name</li>
+<li>Email address</li>
+<li>Appointment details</li>
+</ul>
+
+<p>
+No unnecessary personal information is shared.
+</p>
+
+<hr>
+
+<h2>4. Data Security</h2>
+
+<p>
+We take reasonable technical and organizational measures to protect your
+information.
+</p>
+
+<p>
+These measures include:
+</p>
+
+<ul>
+<li>Encrypted HTTPS (TLS/SSL) communication.</li>
+<li>Secure authentication through Supabase Authentication.</li>
+<li>Row Level Security (RLS) policies restricting database access.</li>
+<li>Secure cloud infrastructure provided by Supabase.</li>
+</ul>
+
+<p>
+While we strive to protect your information, no method of electronic
+storage or internet transmission is completely secure.
+</p>
+
+<hr>
+
+<h2>5. Legal Basis for Processing (GDPR)</h2>
+
+<p>
+If you are located in the European Economic Area (EEA), including Spain,
+we process your personal information in accordance with the General Data
+Protection Regulation (GDPR).
+</p>
+
+<p>
+We process your information only where permitted by law, including:
+</p>
+
+<ul>
+<li>To perform our contract with you by providing the services you request.</li>
+<li>To comply with legal obligations.</li>
+<li>For our legitimate interests in operating, securing, and improving the App.</li>
+</ul>
+
+<hr>
+
+<h2>6. Your Rights</h2>
+
+<p>
+Depending on your location and applicable law, you may have the right
+to:
+</p>
+
+<ul>
+<li>Access your personal information.</li>
+<li>Request correction of inaccurate information.</li>
+<li>Request deletion of your personal information.</li>
+<li>Contact us regarding the processing of your data.</li>
+</ul>
+
+<p>
+You may request deletion of your account at any time.
+</p>
+
+<p>
+After a deletion request:
+</p>
+
+<ul>
+<li>Your booking information will be permanently removed shortly after the request is submitted.</li>
+<li>Your account will be permanently deleted within three (3) business days.</li>
+<li>If you sign back into your account before permanent deletion, your account may be reactivated; however, deleted booking data cannot be restored.</li>
+</ul>
+
+<hr>
+
+<h2>7. Data Retention</h2>
+
+<p>
+We retain your personal information only for as long as necessary to
+provide our services, comply with legal obligations, resolve disputes,
+and enforce our agreements.
+</p>
+
+<p>
+When your account is permanently deleted, your personal information will
+be deleted or anonymized where appropriate, unless we are legally
+required to retain certain information.
+</p>
+
+<hr>
+
+<h2>8. Children's Privacy</h2>
+
+<p>
+The App is not intended for children below the minimum age required
+under applicable law to provide consent for the processing of personal
+data without parental authorization.
+</p>
+
+<hr>
+
+<h2>9. Changes to this Privacy Policy</h2>
+
+<p>
+We may update this Privacy Policy from time to time.
+</p>
+
+<p>
+The latest version will always be available within the App or wherever
+this Privacy Policy is published.
+</p>
+
+<p>
+The revision date at the top of this page indicates when the Privacy
+Policy was last updated.
+</p>
+
+<hr>
+
+<h2>10. Contact</h2>
+
+<p>
+If you have any questions regarding this Privacy Policy or the handling
+of your personal information, please contact:
+</p>
+
+<p>
+<strong>CompanyName</strong><br>
+Email: alfleyla.dev@outlook.com
+</p>
+
+</body>
+</html>
