@@ -1,10 +1,240 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Zeituna</title>
+    <meta name="description" content="Zeituna - A simple and beautiful mobile experience.">
+
+    <style>
+        :root {
+            --olive: #68752f;
+            --olive-dark: #4f5a25;
+            --olive-light: #e9edd8;
+            --cream: #fafaf5;
+            --text: #252820;
+            --muted: #6d7165;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Helvetica, Arial, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 24px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--white);
+            border-bottom: 1px solid #e8e9e2;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--olive-dark);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            margin-left: 24px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: var(--olive);
+        }
+
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero-content {
+            max-width: 720px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--olive-light);
+            color: var(--olive-dark);
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-size: clamp(42px, 8vw, 72px);
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+            color: var(--olive-dark);
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 36px;
+            color: var(--muted);
+            font-size: 19px;
+        }
+
+        .button {
+            display: inline-block;
+            background: var(--olive);
+            color: white;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            background: var(--olive-dark);
+            transform: translateY(-1px);
+        }
+
+        .section {
+            background: var(--white);
+            padding: 70px 20px;
+            text-align: center;
+            border-top: 1px solid #e8e9e2;
+        }
+
+        .section h2 {
+            font-size: 30px;
+            margin-bottom: 16px;
+            color: var(--olive-dark);
+        }
+
+        .section p {
+            max-width: 650px;
+            margin: auto;
+            color: var(--muted);
+        }
+
+        footer {
+            padding: 35px 20px;
+            text-align: center;
+            background: #f1f2e9;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        footer a {
+            color: var(--olive-dark);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 20px;
+            }
+
+            nav a {
+                margin-left: 12px;
+            }
+
+            .hero {
+                min-height: 65vh;
+                padding: 60px 20px;
+            }
+
+            .hero p {
+                font-size: 17px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Hello!</h1>
-    <p>This is my free GitHub Pages website.</p>
+
+<header>
+    <a href="index.html" class="logo">Zeituna</a>
+
+    <nav>
+        <a href="privacy_policy.html">Privacy</a>
+        <a href="terms_of_service.html">Terms</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div class="hero-content">
+
+            <div class="badge">Welcome to Zeituna</div>
+
+            <h1>Simple. Beautiful. Zeituna.</h1>
+
+            <p>
+                A simple and thoughtfully designed mobile experience,
+                created to make everyday interactions easier and more enjoyable.
+            </p>
+
+            <!-- Replace the # below with your Google Play Store URL
+                 once your app is published. -->
+            <a href="#" class="button">
+                Get it on Google Play
+            </a>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Made with simplicity in mind</h2>
+
+        <p>
+            Zeituna is designed with a clean and intuitive experience
+            so you can focus on what matters without unnecessary complexity.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+
+    <div>
+        <a href="privacy_policy.html">Privacy Policy</a>
+        <a href="terms_of_service.html">Terms of Service</a>
+        <a href="mailto:YOUR_EMAIL@example.com">Contact</a>
+    </div>
+
+    <div class="copyright">
+        © 2026 Zeituna. All rights reserved.
+    </div>
+
+</footer>
+
 </body>
 </html>
