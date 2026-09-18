@@ -6,19 +6,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val CreamyColorPalette = lightColors(
-    primary = TurquoisePrimary, 
-    primaryVariant = TurquoiseDark,
+    primary = Color(0xFF556B2F), // Olive Green
+    primaryVariant = Color(0xFF556B2F),
     secondary = Color(0xFF8B9467),
-    // Rich Creamy Sage theme
-    // Background is a muted olive-cream to provide depth behind the cards
-    background = Color(0xFFDCE3C9), 
-    // Surface (Cards) - Whiter cream for better pop and "whiter" look as requested
-    surface = Color(0xFFF9FBF2),
-    onPrimary = White,
-    onSecondary = White,
-    // Deep moss green for text
-    onBackground = Color(0xFF2D3126), 
-    onSurface = Color(0xFF2D3126),
+    // Theme colors exactly from your screenshot
+    background = Color(0xFFF7F8F0), // Very light cream/off-white background
+    surface = Color(0xFFFFFFFF),    // Pure white for cards to stand out
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    // Using Olive Green for text to match the screenshot design
+    onBackground = Color(0xFF556B2F), 
+    onSurface = Color(0xFF556B2F),
 )
 
 @Composable

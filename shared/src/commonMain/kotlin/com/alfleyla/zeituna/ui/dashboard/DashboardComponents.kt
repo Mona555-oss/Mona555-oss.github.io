@@ -175,7 +175,7 @@ fun CollapsibleSection(
 }
 
 /**
- * A custom interactive mouse-based scrollbar for Web.
+ * A custom interactive mouse-based scrollbar for Web and Android.
  */
 @Composable
 fun ZeitunaScrollbar(
@@ -188,19 +188,19 @@ fun ZeitunaScrollbar(
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
     
-    BoxWithConstraints(modifier = modifier.fillMaxHeight().width(12.dp)) {
+    BoxWithConstraints(modifier = modifier.fillMaxHeight().width(14.dp)) {
         val viewHeightPx = with(density) { maxHeight.toPx() }
         val contentHeightPx = viewHeightPx + maxScroll
         
         val thumbHeightPx = (viewHeightPx / contentHeightPx) * viewHeightPx
-        val thumbHeightDp = with(density) { thumbHeightPx.coerceAtLeast(60f).toDp() }
+        val thumbHeightDp = with(density) { thumbHeightPx.coerceAtLeast(80f).toDp() }
         
         val trackHeightPx = viewHeightPx - with(density) { thumbHeightDp.toPx() }
         val currentScroll = scrollState.value.toFloat()
         val scrollPercent = if (maxScroll > 0) currentScroll / maxScroll else 0f
         val thumbOffsetDp = with(density) { (scrollPercent * trackHeightPx).toDp() }
 
-        // Track (Click to jump)
+        // Track (Jump to Click)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -213,7 +213,7 @@ fun ZeitunaScrollbar(
                 }
         )
 
-        // Handle (Drag to scroll)
+        // Handle (Drag to Scroll)
         Box(
             modifier = Modifier
                 .offset(y = thumbOffsetDp)
@@ -224,8 +224,10 @@ fun ZeitunaScrollbar(
                 .draggable(
                     orientation = Orientation.Vertical,
                     state = rememberDraggableState { delta ->
-                        val scrollDelta = (delta / trackHeightPx) * maxScroll
-                        scope.launch { scrollState.scrollBy(scrollDelta) }
+                        if (trackHeightPx > 0) {
+                            val scrollDelta = (delta / trackHeightPx) * maxScroll
+                            scope.launch { scrollState.scrollBy(scrollDelta) }
+                        }
                     }
                 )
                 .align(Alignment.TopCenter)
