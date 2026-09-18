@@ -4,6 +4,10 @@ on:
     branches:
       - source # GitHub runs this whenever you push to the 'source' branch
 
+# Grant permissions to allow the deployment action to push to the main branch
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
