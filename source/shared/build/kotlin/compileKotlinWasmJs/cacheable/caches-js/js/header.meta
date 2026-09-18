@@ -1,0 +1,2 @@
+
+<SilentSpace:shared>:com.alfleyla.zeituna:com.alfleyla.zeituna.auth:com.alfleyla.zeituna.booking:com.alfleyla.zeituna.data: com.alfleyla.zeituna.data.models:com.alfleyla.zeituna.profile:com.alfleyla.zeituna.theme:com.alfleyla.zeituna.ui.auth:com.alfleyla.zeituna.ui.booking:!com.alfleyla.zeituna.ui.dashboard:!com.alfleyla.zeituna.ui.materials:com.alfleyla.zeituna.ui.profile:com.alfleyla.zeituna.utils:&silentspace.shared.generated.resources

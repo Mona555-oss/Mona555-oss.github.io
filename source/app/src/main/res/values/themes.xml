@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.alfleyla" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/turquoise_primary</item>
+        <item name="colorPrimaryVariant">@color/turquoise_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/turquoise_accent</item>
+        <item name="colorSecondaryVariant">@color/turquoise_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+
+        <!-- App Background -->
+        <item name="android:windowBackground">@color/turquoise_light</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

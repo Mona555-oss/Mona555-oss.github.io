@@ -1,0 +1,149 @@
+Con la API de Bookitit puedes crear citas en tus agendas a través de la función addEvent. Esta función dispone de diferentes parámetros opcionales, que según como los rellenemos la función actuará de una forma o de otra.
+Los casos posibles son:
+
+-Crear una cita y asociarla a un usuario web.
+-Crear una cita y asociarla a un cliente.
+-Crear una cita y crear un cliente.
+
+Si queremos crear una cita y asociarla a un usuario web habrá que crear el usuario web previamente mediante el método addUser. Hay que recordar que Bookitit diferencia entre clientes y usuarios web, esto quiere decir que vas a tener dos grupos de ids, los ids de usuarios y los ids de clientes, esto es muy importante recordarlo cuando pases estos valores como parámetros.
+
+Un cliente es un usuario que NO puede reservar por internet, por ejemplo este usuario podría haberse creado en caso de que hubiera llamado por teléfono para coger cita previa y no lo teníamos en la base de datos. Un usuario web es un usuario que puede reservar a través de la web o de internet(API, Widget, etc).
+
+Es recomendable utilizar la función la función getFreeSlots para obtener los huecos libres disponibles antes de crear un evento. En caso contrario si no existen huecos para la hora de inicio que se pase como parámetro la función devolverá un error.
+
+Ejemplos:
+-Crear una cita y asociarla a un usuario web.
+(El usuario web debe existir previamente)
+En el ejemplo que vemos a continuación observamos como se utiliza el método addUser que se encarga de crear el usuario previamente. Fíjate que el password tiene que estar cifrado en md5. En este caso hemos creado previamente el usuario para que veáis como funciona, pero si ya tenéis el id del usuario creado, podéis omitir el trozo referente a la creación del usuario, únicamente habría que vincular el evento con el id de usuario correspondiente.
+
+public static void main(String[] args) throws Exception{
+ CRestClient oRestClient = new CRestClient();
+
+ MessageDigest md = MessageDigest.getInstance(«MD5»);
+ String sPass = «testpassword»;
+  md.update(sPass.getBytes());
+  byte[] digest = md.digest();
+  System.out.println(digest);
+ StringBuffer sb = new StringBuffer();
+ for (byte b : digest) {
+   sb.append(Integer.toHexString((int) (b & 0xff)));
+  }
+
+ sPass = sb.toString();
+
+ String sUser = oRestClient.addUser(«username», «11441111314611111», «esasdmaaail22@user.com», sPass, «json», true);
+ sUser=»[«+sUser+»]»;
+ JSONParser parser=new JSONParser();
+ JSONArray obj=(JSONArray) parser.parse(sUser);
+ HashMap hashUser=(HashMap)((JSONObject)obj.get(0)).get(«user»);
+ if(hashUser.get(«status»).equals(«true»)){
+  String iIdUser = (String)hashUser.get(«id»);
+  //it creates the event
+  String sEvent = oRestClient.addEvent(«id_agenda», «id_servicio», «2013-11-01», «2013-11-01», 540, 600,
+  «test», «», «»,»», «», «», iIdUser, «», «», «», «», «», «json», true);
+
+  sEvent=»[«+sEvent+»]»;
+  obj=(JSONArray) parser.parse(sEvent);
+  HashMap hashEvents=(HashMap)((JSONObject)obj.get(0)).get(«event»);
+  if(hashEvents .get(«status»).equals(«true»)){
+   System.out.println((String)hashEvents .get(«id»));
+  }
+
+ }
+}
+
+-Crear una cita y asociarla a un cliente.
+(El cliente debe existir previamente)
+
+public static void main(String[] args) throws Exception{
+ CRestClient oRestClient = new CRestClient();
+
+ MessageDigest md = MessageDigest.getInstance(«MD5»);
+ String sPass = «testpassword»;
+ md.update(sPass.getBytes());
+  byte[] digest = md.digest();
+  System.out.println(digest);
+ StringBuffer sb = new StringBuffer();
+ for (byte b : digest) {
+   sb.append(Integer.toHexString((int) (b & 0xff)));
+  }
+
+ sPass = sb.toString();
+
+ String sEvent = oRestClient.addEvent(«id_agenda», «id_servicio», «2013-11-01», «2013-11-01», 540, 600,
+«test», «», «»,»», «», «», «», «», «id_client», «», «», «», «json», true);
+
+ sEvent=»[«+sEvent+»]»;
+ JSONParser parser=new JSONParser();
+ JSONArray obj=(JSONArray) parser.parse(sEvent);
+ HashMap hashEvents=(HashMap)((JSONObject)obj.get(0)).get(«event»);
+ if(hashEvents.get(«status»).equals(«true»)){
+  System.out.println((String)hashEvents.get(«id»));
+ }
+}
+
+-Crear una cita y crear un cliente.
+(El cliente puede no existir y se creará en el mismo proceso)
+
+public static void main(String[] args) throws Exception{
+ //TODO code application logic here
+ CRestClient oRestClient = new CRestClient();
+ MessageDigest md = MessageDigest.getInstance(«MD5»);
+ String sPass = «testpassword»;
+ md.update(sPass.getBytes());
+  byte[] digest = md.digest();
+  System.out.println(digest);
+ StringBuffer sb = new StringBuffer();
+ for (byte b : digest) {
+sb.append(Integer.toHexString((int) (b & 0xff)));
+  }
+
+ sPass = sb.toString();
+
+ String sEvent = oRestClient.addEvent(«bkt5962», «bkt17226», «2013-11-01», «2013-11-01», 540, 600,
+«test», «», «»,»», «», «», «», «», «», «Test Java», «23423111», «newemail@email.com», «json», true);
+
+ sEvent=»[«+sEvent+»]»;
+ JSONParser parser=new JSONParser();
+ JSONArray obj=(JSONArray) parser.parse(sEvent);
+ HashMap hashEvents=(HashMap)((JSONObject)obj.get(0)).get(«event»);
+ if(hashEvents.get(«status»).equals(«true»)){
+  System.out.println((String)hashEvents.get(«id»));
+  System.out.println((String)hashEvents.get(«idclient»));
+ }
+}
+
+Podemos observar que en este caso se devuelven dos valores.
+
+System.out.println((String)hashEvents.get(«id»));
+System.out.println((String)hashEvents.get(«idclient»));
+El id del evento y el id del cliente. Esto solo ocurrirá en caso que hayas indicado la creación de un cliente nuevo, en addEvent. Esto es dejando los campos iduser, idclient vacíos y rellenando los datos del cliente. De esta forma el método interpreta que no existe usuario ni cliente y que tienen que crear un cliente nuevo.
+
+Podemos ver que la llamada al método addEvent:
+
+String sEvent = oRestClient.addEvent(«bkt5962», «bkt17226», «2013-11-01», «2013-11-01», 540, 600,
+«test», «», «»,»», «», «», «», «», «», «Test Java», «23423111», «newemail@email.com», «json», true);
+Observa como se están pasando los datos del cliente que se quiere crear para ese evento.
+
+Todas las peticiones son devueltas con un campo “status”. Ese campo indica si la petición fue correcta o falló.
+
+En caso de fallo se devuelve un xml o json con el siguiente formato.
+
+En todas las llamadas se devuelve un campo status que indica el resultado de la petición. En caso de que haya un error, dependiendo de si has solicitado la petición en json o en xml se devolverá con el siguiente formato:
+
+xml
+<?xml version=’1.0′ encoding=’utf-8′?>
+<event>
+<status>false</status>
+<id>error id</id>
+<message>error message</message>
+</event>
+json
+ {«event»:
+  {
+   «status»:false,
+   «id»:error id,
+   «message»:error message
+  }
+}
+
