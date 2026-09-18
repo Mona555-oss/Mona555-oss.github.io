@@ -35,6 +35,7 @@ import com.alfleyla.zeituna.ui.materials.MaterialsScreen
 import com.alfleyla.zeituna.ui.profile.AccountScreen
 import com.alfleyla.zeituna.utils.platformGetCurrentUrl
 import com.alfleyla.zeituna.utils.platformGetSessionData
+import com.alfleyla.zeituna.utils.platformPutSessionData
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.postgrest.postgrest
@@ -49,7 +50,14 @@ enum class Screen {
 
 @Composable
 fun App() {
-    var currentScreen by remember { mutableStateOf(Screen.Landing) }
+    // 1. Restore screen from session storage
+    var currentScreen by remember { 
+        val saved = platformGetSessionData("last_screen")
+        mutableStateOf(saved?.let { try { Screen.valueOf(it) } catch(e: Exception) { null } } ?: Screen.Landing) 
+    }
+    
+    var isAuthReady by remember { mutableStateOf(false) }
+    
     var selectedService by remember { mutableStateOf<LessonService?>(null) }
     var selectedBookingId by remember { mutableStateOf<String?>(null) }
     var appliedDiscount by remember { mutableStateOf(0.0) }
@@ -58,6 +66,19 @@ fun App() {
     val sessionStatus = SupabaseClientObj.client.auth.sessionStatus.collectAsState(SessionStatus.NotAuthenticated(isSignOut = false))
     val authViewModel: AuthViewModel = viewModel { AuthViewModel() }
     val profileViewModel: ProfileViewModel = viewModel { ProfileViewModel() }
+
+    // 2. Persist screen changes
+    LaunchedEffect(currentScreen) {
+        platformPutSessionData("last_screen", currentScreen.name)
+    }
+
+    // 3. Initialize Auth before showing UI to avoid "Guest" flicker on refresh
+    LaunchedEffect(Unit) {
+        try {
+            SupabaseClientObj.client.auth.awaitInitialization()
+        } catch (e: Exception) { }
+        isAuthReady = true
+    }
 
     ZeitunaTheme {
         // Restore state if returning from PayPal
@@ -81,20 +102,38 @@ fun App() {
             }
         }
 
-        LaunchedEffect(sessionStatus.value) {
-            if (sessionStatus.value is SessionStatus.Authenticated) {
-                if (currentScreen == Screen.Login || currentScreen == Screen.Register) {
+        // 4. Robust redirection logic
+        LaunchedEffect(isAuthReady, sessionStatus.value) {
+            if (!isAuthReady) return@LaunchedEffect
+            
+            val status = sessionStatus.value
+            if (status is SessionStatus.Authenticated) {
+                // If logged in but on a guest screen, move to dashboard
+                if (currentScreen == Screen.Landing || currentScreen == Screen.Login || currentScreen == Screen.Register) {
                     currentScreen = Screen.Dashboard
                 }
+            } else if (status is SessionStatus.NotAuthenticated) {
+                // If not logged in and on an internal screen, move back to landing
+                if (currentScreen != Screen.Landing && currentScreen != Screen.Login && currentScreen != Screen.Register) {
+                    currentScreen = Screen.Landing
+                }
             }
+        }
+
+        if (!isAuthReady) {
+            // Show splash/loading while waiting for session recovery
+            Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+            }
+            return@ZeitunaTheme
         }
 
         when (currentScreen) {
             Screen.Landing -> {
                 LandingScreen(
                     onLoginClick = { currentScreen = Screen.Login },
-                    onNavigateToPrivacy = { /* Add link logic if needed */ },
-                    onNavigateToTerms = { /* Add link logic if needed */ }
+                    onNavigateToPrivacy = { /* Link logic */ },
+                    onNavigateToTerms = { /* Link logic */ }
                 )
             }
             Screen.Login -> {
@@ -246,15 +285,15 @@ fun LandingScreen(
                 text = "Zeituna",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colors.primaryVariant
+                color = MaterialTheme.colors.primary
             )
             
             Row {
                 TextButton(onClick = onNavigateToPrivacy) {
-                    Text("Privacy", color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f))
+                    Text("Privacy", color = MaterialTheme.colors.onBackground.copy(alpha = 0.7f))
                 }
                 TextButton(onClick = onNavigateToTerms) {
-                    Text("Terms", color = MaterialTheme.colors.onBackground.copy(alpha = 0.6f))
+                    Text("Terms", color = MaterialTheme.colors.onBackground.copy(alpha = 0.7f))
                 }
             }
         }
@@ -287,7 +326,7 @@ fun LandingScreen(
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center,
                 lineHeight = 56.sp,
-                color = MaterialTheme.colors.primaryVariant
+                color = MaterialTheme.colors.primary
             )
 
             Text(
@@ -306,19 +345,19 @@ fun LandingScreen(
                 Button(
                     onClick = onLoginClick,
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primaryVariant),
+                    colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
                     modifier = Modifier.height(56.dp).padding(end = 8.dp)
                 ) {
                     Text("Get Started / Login", color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 16.dp))
                 }
 
                 OutlinedButton(
-                    onClick = { /* Link to Play Store */ },
+                    onClick = { /* Link logic */ },
                     shape = RoundedCornerShape(12.dp),
-                    border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
+                    border = BorderStroke(1.dp, MaterialTheme.colors.primary),
                     modifier = Modifier.height(56.dp).padding(start = 8.dp)
                 ) {
-                    Text("Get it on Google Play", color = MaterialTheme.colors.primaryVariant, fontWeight = FontWeight.Bold)
+                    Text("Get it on Google Play", color = MaterialTheme.colors.primary, fontWeight = FontWeight.Bold)
                 }
             }
             
