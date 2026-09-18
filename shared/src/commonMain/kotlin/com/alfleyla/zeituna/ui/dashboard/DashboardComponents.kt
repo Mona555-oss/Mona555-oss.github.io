@@ -2,10 +2,7 @@ package com.alfleyla.zeituna.ui.dashboard
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
+import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -203,12 +200,12 @@ fun ZeitunaScrollbar(
         val scrollPercent = if (maxScroll > 0) currentScroll / maxScroll else 0f
         val thumbOffsetDp = with(density) { (scrollPercent * trackHeightPx).toDp() }
 
-        // Track
+        // Track (Click to jump)
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.05f), CircleShape)
-                .pointerInput(maxScroll, viewHeightPx) {
+                .pointerInput(maxScroll) {
                     detectTapGestures { offset ->
                         val targetPercent = (offset.y / viewHeightPx).coerceIn(0f, 1f)
                         scope.launch { scrollState.scrollTo((targetPercent * maxScroll).toInt()) }
@@ -216,7 +213,7 @@ fun ZeitunaScrollbar(
                 }
         )
 
-        // Handle
+        // Handle (Drag to scroll)
         Box(
             modifier = Modifier
                 .offset(y = thumbOffsetDp)
