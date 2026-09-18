@@ -64,7 +64,12 @@ actual fun hmacMd5(key: ByteArray, data: ByteArray): ByteArray {
 }
 
 actual fun platformLog(tag: String, message: String, isError: Boolean) {
-    if (isError) console.error("$tag: $message") else console.log("$tag: $message")
+    val logMessage = "$tag: $message"
+    if (isError) {
+        println("ERROR: $logMessage")
+    } else {
+        println(logMessage)
+    }
 }
 
 actual fun platformOpenUrl(url: String) {
