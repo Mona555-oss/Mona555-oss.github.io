@@ -2,7 +2,6 @@ package com.alfleyla.zeituna.utils
 
 import kotlinx.browser.window
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.asList
 import kotlinx.browser.document
 import org.khronos.webgl.ArrayBuffer
 import org.khronos.webgl.Uint8Array
@@ -19,8 +18,8 @@ actual fun base64Encode(input: ByteArray): String {
 }
 
 actual fun hmacMd5(key: ByteArray, data: ByteArray): ByteArray {
+    // Basic MD5/HMAC implementation for Wasm
     fun rotateLeft(v: Int, c: Int): Int = (v shl c) or (v ushr (32 - c))
-
     fun md5(input: ByteArray): ByteArray {
         val S = intArrayOf(7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21, 6, 10, 15, 21)
         val K = IntArray(64) { i -> (kotlin.math.abs(kotlin.math.sin(i + 1.0)) * 4294967296.0).toLong().toInt() }
@@ -57,7 +56,6 @@ actual fun hmacMd5(key: ByteArray, data: ByteArray): ByteArray {
         write(a, 0); write(b, 4); write(c, 8); write(d, 12)
         return res
     }
-
     var k = if (key.size > 64) md5(key) else key
     if (k.size < 64) k = k.copyOf(64)
     val iwd = ByteArray(64) { i -> (k[i].toInt() xor 0x36).toByte() }
@@ -66,44 +64,31 @@ actual fun hmacMd5(key: ByteArray, data: ByteArray): ByteArray {
 }
 
 actual fun platformLog(tag: String, message: String, isError: Boolean) {
-    val logMessage = "$tag: $message"
-    if (isError) {
-        println("ERROR: $logMessage")
-    } else {
-        println(logMessage)
-    }
+    if (isError) console.error("$tag: $message") else console.log("$tag: $message")
 }
 
 actual fun platformOpenUrl(url: String) {
     window.location.href = url
 }
 
-actual fun platformGetCurrentUrl(): String {
-    return window.location.href
-}
+actual fun platformGetCurrentUrl(): String = window.location.href
 
 actual fun platformClearUrlParams() {
-    try {
-        window.history.replaceState(null, "", window.location.pathname)
-    } catch (e: Throwable) {}
+    try { window.history.replaceState(null, "", window.location.pathname) } catch (e: Throwable) {}
 }
 
 actual fun platformPutSessionData(key: String, value: String) {
     window.sessionStorage.setItem(key, value)
 }
 
-actual fun platformGetSessionData(key: String): String? {
-    return window.sessionStorage.getItem(key)
-}
+actual fun platformGetSessionData(key: String): String? = window.sessionStorage.getItem(key)
 
-private fun getTimeZoneJS(): String = js("Intl.DateTimeFormat().resolvedOptions().timeZone")
+// Fixed JS interop for Kotlin/Wasm
+@JsFun("() => Intl.DateTimeFormat().resolvedOptions().timeZone")
+external fun getTimeZoneJS(): String
 
 actual fun platformGetTimeZoneId(): String {
-    return try {
-        getTimeZoneJS()
-    } catch (e: Throwable) {
-        "UTC"
-    }
+    return try { getTimeZoneJS() } catch (e: Throwable) { "UTC" }
 }
 
 actual fun platformPickFile(allowedExtensions: List<String>, onResult: (ByteArray?, String?) -> Unit) {
